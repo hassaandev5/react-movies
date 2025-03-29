@@ -3,6 +3,7 @@ import Search from "./components/Search";
 import { BiMoviePlay } from "react-icons/bi";
 import Spinner from "./components/Spinner";
 import MovieDetail from "./components/MovieDetail";
+import { useDebounce } from "use-debounce";
 
 const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
 const API_BASE_URL = `http://www.omdbapi.com`;
@@ -12,6 +13,7 @@ const API_OPTIONS = {
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 2000);
   const [errorMessage, setErrorMessage] = useState("");
   const [movie, setMovie] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +52,7 @@ const App = () => {
       setMovie("");
       setErrorMessage("");
     }
-  }, [searchTerm]);
+  }, [debouncedSearchTerm]);
 
   return (
     <main className="min-h-screen bg-gray-50">
